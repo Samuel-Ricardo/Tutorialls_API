@@ -1,10 +1,14 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ExceptionFilter } from './exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new ExceptionFilter(httpAdapter));
 
   const config = new DocumentBuilder()
     .setTitle('Tutorialls API')
