@@ -5,3 +5,15 @@ services:
       - '3000:3000'
     env_file:
       - .env
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: tutorialls_database
+    volumes:
+      - ./.docker/data/db:/var/lib/postgresql/data
