@@ -5,3 +5,34 @@ services:
       - '3000:3000'
     env_file:
       - .env
+    depends_on:
+      - postgres
+    external_links:
+      - 'host.docker.internal'
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: tutorialls_database
+    volumes:
+      - ./.docker/data/db:/var/lib/postgresql/data
+    external_links:
+      - 'host.docker.internal'
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
+    external_links:
+      - 'host.docker.internal'
