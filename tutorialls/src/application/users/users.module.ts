@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './users.service';
+import { AuthService } from './auth.service';
 import { UsersController } from './users.controller';
 import { UserShouldNotAlreadyExistsToSignupPolicy } from './policy/alredy_exists.policy';
 import { BcryptHashPasswordUseCase } from './use_case/hash_password.use_case';
