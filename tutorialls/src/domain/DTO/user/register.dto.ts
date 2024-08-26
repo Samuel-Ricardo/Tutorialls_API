@@ -1,4 +1,4 @@
-export interface IRegisterUserDTO {
+export interface ISignupUserDTO {
   email: string;
   password: string;
   authToken?: string;
