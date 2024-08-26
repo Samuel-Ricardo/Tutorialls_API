@@ -5,6 +5,8 @@ services:
       - '3000:3000'
     env_file:
       - .env
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:latest
@@ -17,3 +19,14 @@ services:
       POSTGRES_DB: tutorialls_database
     volumes:
       - ./.docker/data/db:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
