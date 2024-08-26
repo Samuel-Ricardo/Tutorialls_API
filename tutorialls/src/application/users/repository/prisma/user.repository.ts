@@ -17,9 +17,14 @@ export class PrismaUserRepository implements IUserRepository {
     );
   }
 
-  findByEmail(DTO: IFindUserByEmailDTO): Promise<User> {
-    throw new Error('Method not implemented.');
+  async findByEmail(DTO: IFindUserByEmailDTO) {
+    return User.fromDTO(
+      this.prisma.user.findUnique({
+        where: { email: DTO.email },
+      }) as unknown as IUserDTO,
+    );
   }
+
   findById(DTO: IFindUserByIdDTO): Promise<User> {
     throw new Error('Method not implemented.');
   }
