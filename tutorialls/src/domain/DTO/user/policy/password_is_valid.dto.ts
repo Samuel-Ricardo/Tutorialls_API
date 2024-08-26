@@ -1,3 +1,4 @@
 export interface IUserPasswordIsValidDTO {
-  password: string;
+  login_password: string;
+  registered_password: string;
 }
