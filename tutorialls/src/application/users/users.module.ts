@@ -5,15 +5,31 @@ import { UserShouldNotAlreadyExistsToSignupPolicy } from './policy/alredy_exists
 import { BcryptHashPasswordUseCase } from './use_case/hash_password.use_case';
 import { RepositorySignupUserUseCase } from './use_case/signup.use_case';
 import { PrismaUserRepository } from './repository/prisma/user.repository';
+import { MODULE } from 'src/app.registry';
 
 @Module({
   controllers: [UsersController],
   providers: [
-    PrismaUserRepository,
-    AuthService,
-    UserShouldNotAlreadyExistsToSignupPolicy,
-    BcryptHashPasswordUseCase,
-    RepositorySignupUserUseCase,
+    {
+      provide: MODULE.USER.POLICY.ALREDY_EXISTS,
+      useClass: UserShouldNotAlreadyExistsToSignupPolicy,
+    },
+    {
+      provide: MODULE.USER.USE_CASE.HASH.PASSWORD,
+      useClass: BcryptHashPasswordUseCase,
+    },
+    {
+      provide: MODULE.USER.USE_CASE.SIGNUP,
+      useClass: RepositorySignupUserUseCase,
+    },
+    {
+      provide: MODULE.USER.REPOSITORY.PRISMA,
+      useClass: PrismaUserRepository,
+    },
+    {
+      provide: MODULE.USER.SERVICE.AUTH,
+      useClass: AuthService,
+    },
   ],
 })
 export class UsersModule {}
