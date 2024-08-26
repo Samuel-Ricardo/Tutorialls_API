@@ -8,6 +8,6 @@ export class RepositorySignupUserUseCase implements ISignupUserUseCase {
   constructor(private readonly repository: IUserRepository) {}
 
   async execute(user: ISignupUserDTO) {
-    return await this.repository.register(user);
+    return await this.repository.signup(user);
   }
 }
