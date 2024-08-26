@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { AuthService } from './users.service';
 import { UsersController } from './users.controller';
+import { UserAlredyExistsPolicy } from './policy/alredy_exists.policy';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [AuthService, UserAlredyExistsPolicy],
 })
 export class UsersModule {}
