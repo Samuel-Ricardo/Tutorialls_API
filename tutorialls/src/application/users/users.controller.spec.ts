@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { MODULE } from 'src/app.registry';
-import { IAuthService } from 'src/domain/service/user/auth.service';
+import { IUserService } from 'src/domain/service/user/user.service';
 import { ISignupUserDTO } from 'src/domain/DTO/user/register.dto';
-import { IAuthUserDTO } from 'src/domain/DTO/user/auth.dto';
+import { ILoginUserDTO } from 'src/domain/DTO/user/login.dto';
 import { User } from 'src/domain/entity/user.entity';
 
 describe('UsersController', () => {
   let usersController: UsersController;
-  let authServiceMock: jest.Mocked<IAuthService>;
+  let authServiceMock: jest.Mocked<IUserService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -56,7 +56,7 @@ describe('UsersController', () => {
 
   describe('login', () => {
     it('should call AuthService.login with the correct user data', async () => {
-      const userMock: IAuthUserDTO = {
+      const userMock: ILoginUserDTO = {
         email: 'test@test.com',
         password: '12345',
       };

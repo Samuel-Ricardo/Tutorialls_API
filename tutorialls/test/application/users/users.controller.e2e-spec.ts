@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from 'src/app.module';
 import { ISignupUserDTO } from 'src/domain/DTO/user/register.dto';
-import { IAuthUserDTO } from 'src/domain/DTO/user/auth.dto';
+import { ILoginUserDTO } from 'src/domain/DTO/user/login.dto';
 
 describe('UsersController (e2e)', () => {
   let app;
@@ -27,7 +27,7 @@ describe('UsersController (e2e)', () => {
   });
 
   it('/user/login (POST)', async () => {
-    const userDto: IAuthUserDTO = {
+    const userDto: ILoginUserDTO = {
       email: 'test@test.com',
       password: '12345',
     };

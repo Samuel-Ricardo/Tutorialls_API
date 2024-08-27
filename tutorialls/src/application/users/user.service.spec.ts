@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 import { MODULE } from 'src/app.registry';
-import { IUserShouldNotAlreadyExistsToSignupPolicy } from 'src/domain/policy/user/alredy_exists.policy';
+import { IUserShouldNotAlreadyExistsToSignupPolicy } from 'src/domain/policy/user/signup_alredy_exists.policy';
 import { IHashPasswordUseCase } from 'src/domain/use_case/user/security/hash_password.use_case';
 import { ISignupUserUseCase } from 'src/domain/use_case/user/signup.use_case';
 import { UserAlredyExistsError } from 'src/internal/lib/error/user/alredy_exists.error';
 import { ISignupUserDTO } from 'src/domain/DTO/user/register.dto';
 import { User } from 'src/domain/entity/user.entity';
 
-describe('AuthService', () => {
-  let authService: AuthService;
+describe('UserService', () => {
+  let authService: UserService;
   let hashPasswordMock: jest.Mocked<IHashPasswordUseCase>;
   let userShouldNotAlreadyExistsToSignupMock: jest.Mocked<IUserShouldNotAlreadyExistsToSignupPolicy>;
   let signupUserMock: jest.Mocked<ISignupUserUseCase>;
@@ -17,7 +17,7 @@ describe('AuthService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AuthService,
+        UserService,
         {
           provide: MODULE.USER.USE_CASE.HASH.PASSWORD,
           useValue: {
@@ -39,7 +39,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    authService = module.get<AuthService>(AuthService);
+    authService = module.get<UserService>(UserService);
     hashPasswordMock = module.get(MODULE.USER.USE_CASE.HASH.PASSWORD);
     userShouldNotAlreadyExistsToSignupMock = module.get(
       MODULE.USER.POLICY.ALREDY_EXISTS,
