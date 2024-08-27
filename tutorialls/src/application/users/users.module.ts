@@ -7,6 +7,7 @@ import { RepositorySignupUserUseCase } from './use_case/signup.use_case';
 import { PrismaUserRepository } from './repository/prisma/user.repository';
 import { MODULE } from 'src/app.registry';
 import { PrismaModule } from 'src/infra/engine/database/prisma/prisma.module';
+import { UserShouldExistsToAuthPolicy } from './policy/should_exists.policy';
 
 @Module({
   controllers: [UsersController],
@@ -15,6 +16,10 @@ import { PrismaModule } from 'src/infra/engine/database/prisma/prisma.module';
     {
       provide: MODULE.USER.POLICY.ALREDY_EXISTS,
       useClass: UserShouldNotAlreadyExistsToSignupPolicy,
+    },
+    {
+      provide: MODULE.USER.POLICY.SHOULD_EXISTS,
+      useClass: UserShouldExistsToAuthPolicy,
     },
     {
       provide: MODULE.USER.USE_CASE.HASH.PASSWORD,
