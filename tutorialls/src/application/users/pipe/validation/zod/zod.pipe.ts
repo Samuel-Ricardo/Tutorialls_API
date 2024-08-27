@@ -11,6 +11,6 @@ export class ZodValidationPipe implements PipeTransform {
     const result = this.schema.safeParse(value);
     if (result.success) return result.data;
 
-    throw new InvalidDataError(result.error.format()._errors.join('\n'));
+    throw new InvalidDataError(result.error.message);
   }
 }
