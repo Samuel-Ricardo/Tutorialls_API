@@ -6,7 +6,7 @@ import { IDecryptUserUseCase } from 'src/domain/use_case/user/security/decrypt.u
 @Injectable()
 export class NodeDecryptUserUseCase implements IDecryptUserUseCase {
   private readonly algorithm = 'aes-256-ctr';
-  private readonly secretKey = 'secret';
+  private readonly secretKey = 'l20l8oiXQxRtFb7Ga6WwRNl9oMJKTiUA';
 
   async execute({ ciphertext }: IDecryptUserDTO) {
     const [iv, encryptedText] = ciphertext.split(':');

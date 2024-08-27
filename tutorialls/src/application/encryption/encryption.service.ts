@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { MODULE } from 'src/app.registry';
 import { IDecryptUserDTO } from 'src/domain/DTO/security/user/decrypt.dto';
 import { IEncryptUserDTO } from 'src/domain/DTO/security/user/encrypt.dto';
