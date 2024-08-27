@@ -1,19 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MODULE } from 'src/app.registry';
 import { IUserAlreadyExistsPolicyDTO } from 'src/domain/DTO/user/policy/alredy_exists.dto';
-import { IUserShouldNotAlreadyExistsToSignupPolicy } from 'src/domain/policy/user/signup_alredy_exists.policy';
+import { IUserShouldExistsToAuthPolicy } from 'src/domain/policy/user/login_alredy_exists.policy';
 import { IUserRepository } from 'src/domain/repository/user/user.repository';
 
 @Injectable()
-export class UserShouldNotAlreadyExistsToSignupPolicy
-  implements IUserShouldNotAlreadyExistsToSignupPolicy
+export class UserShouldExistsToAuthPolicy
+  implements IUserShouldExistsToAuthPolicy
 {
   constructor(
     @Inject(MODULE.USER.REPOSITORY.PRISMA)
     private readonly repository: IUserRepository,
   ) {}
 
-  async execute({ email }: IUserAlreadyExistsPolicyDTO) {
-    return (await this.repository.findByEmail({ email })) ? true : false;
+  async execute(user: IUserAlreadyExistsPolicyDTO) {
+    return await this.repository.findByEmail(user);
   }
 }
