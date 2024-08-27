@@ -4,7 +4,6 @@ import { MODULE } from 'src/app.registry';
 import { IUserService } from 'src/domain/service/user/user.service';
 import { ISignupUserDTO } from 'src/domain/DTO/user/register.dto';
 import { ILoginUserDTO } from 'src/domain/DTO/user/login.dto';
-import { User } from 'src/domain/entity/user.entity';
 
 describe('UsersController (Unit)', () => {
   let usersController: UsersController;
