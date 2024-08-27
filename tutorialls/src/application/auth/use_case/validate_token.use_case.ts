@@ -4,7 +4,7 @@ import { IValidateAuthTokenDTO } from 'src/domain/DTO/auth/token/validate.dto';
 import { IValidateAuthTokenUseCase } from 'src/domain/use_case/auth/validate_token.use_case';
 
 @Injectable()
-export class ValidateAuthTokenUseCase implements IValidateAuthTokenUseCase {
+export class JwtValidateAuthTokenUseCase implements IValidateAuthTokenUseCase {
   constructor(private readonly jwt: JwtService) {}
 
   async execute<T>({ token }: IValidateAuthTokenDTO) {
