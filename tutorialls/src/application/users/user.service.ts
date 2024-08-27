@@ -2,11 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { MODULE } from 'src/app.registry';
 import { ILoginUserDTO } from 'src/domain/DTO/user/login.dto';
 import { ISignupUserDTO } from 'src/domain/DTO/user/register.dto';
-import { IUserDTO } from 'src/domain/DTO/user/user.dto';
-import { User } from 'src/domain/entity/user.entity';
 import { IUserShouldExistsToAuthPolicy } from 'src/domain/policy/user/login_alredy_exists.policy';
 import { IPasswordShouldBeValidToLoginPolicy } from 'src/domain/policy/user/password_is_valid.policy';
 import { IUserShouldNotAlreadyExistsToSignupPolicy } from 'src/domain/policy/user/signup_alredy_exists.policy';
+import { IAuthService } from 'src/domain/service/auth/auth.service';
 import { IUserService } from 'src/domain/service/user/user.service';
 import { IHashPasswordUseCase } from 'src/domain/use_case/user/security/hash_password.use_case';
 import { ISignupUserUseCase } from 'src/domain/use_case/user/signup.use_case';
@@ -27,6 +26,8 @@ export class UserService implements IUserService {
     private readonly hashPassword: IHashPasswordUseCase,
     @Inject(MODULE.USER.USE_CASE.SIGNUP)
     private readonly signupUser: ISignupUserUseCase,
+    @Inject(MODULE.AUTH.SERVICE.JWT)
+    private readonly authService: IAuthService,
   ) {}
 
   async login(user: ILoginUserDTO) {
@@ -41,8 +42,9 @@ export class UserService implements IUserService {
     )
       throw new InvalidCredentials();
 
-    console.log({ user });
-    return User.fromDTO({} as IUserDTO);
+    const token = await this.authService.authenticate(user);
+
+    return { token };
   }
 
   async signup(user: ISignupUserDTO) {
@@ -50,6 +52,6 @@ export class UserService implements IUserService {
       throw new UserAlredyExistsError();
 
     user.password = await this.hashPassword.execute(user);
-    return await this.signupUser.execute(user);
+    await this.signupUser.execute(user);
   }
 }
