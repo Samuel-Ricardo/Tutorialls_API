@@ -7,12 +7,15 @@ import { ISignupUserUseCase } from 'src/domain/use_case/user/signup.use_case';
 import { UserAlredyExistsError } from 'src/internal/lib/error/user/alredy_exists.error';
 import { ISignupUserDTO } from 'src/domain/DTO/user/register.dto';
 import { User } from 'src/domain/entity/user.entity';
+import { IPasswordShouldBeValidToLoginPolicy } from 'src/domain/policy/user/password_is_valid.policy';
 
 describe('UserService', () => {
   let authService: UserService;
   let hashPasswordMock: jest.Mocked<IHashPasswordUseCase>;
   let userShouldNotAlreadyExistsToSignupMock: jest.Mocked<IUserShouldNotAlreadyExistsToSignupPolicy>;
   let signupUserMock: jest.Mocked<ISignupUserUseCase>;
+  let passwordIsValidMock: jest.Mocked<IPasswordShouldBeValidToLoginPolicy>;
+  let userShouldExistsToAuthMock: jest.Mocked<IUserShouldNotAlreadyExistsToSignupPolicy>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,6 +29,18 @@ describe('UserService', () => {
         },
         {
           provide: MODULE.USER.POLICY.ALREDY_EXISTS,
+          useValue: {
+            execute: jest.fn(),
+          },
+        },
+        {
+          provide: MODULE.USER.POLICY.SHOULD_EXISTS,
+          useValue: {
+            execute: jest.fn(),
+          },
+        },
+        {
+          provide: MODULE.USER.POLICY.IS_VALID_PASSWORD,
           useValue: {
             execute: jest.fn(),
           },
@@ -45,6 +60,10 @@ describe('UserService', () => {
       MODULE.USER.POLICY.ALREDY_EXISTS,
     );
     signupUserMock = module.get(MODULE.USER.USE_CASE.SIGNUP);
+    passwordIsValidMock = module.get(MODULE.USER.POLICY.IS_VALID_PASSWORD);
+    userShouldExistsToAuthMock = module.get(MODULE.USER.POLICY.SHOULD_EXISTS);
+
+    console.log({ passwordIsValidMock, userShouldExistsToAuthMock });
   });
 
   it('should be defined', () => {
