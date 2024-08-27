@@ -8,10 +8,11 @@ import { PrismaUserRepository } from './repository/prisma/user.repository';
 import { MODULE } from 'src/app.registry';
 import { PrismaModule } from 'src/infra/engine/database/prisma/prisma.module';
 import { UserShouldExistsToAuthPolicy } from './policy/should_exists.policy';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [UsersController],
-  imports: [PrismaModule],
+  imports: [PrismaModule, AuthModule],
   providers: [
     {
       provide: MODULE.USER.POLICY.ALREDY_EXISTS,
@@ -19,6 +20,10 @@ import { UserShouldExistsToAuthPolicy } from './policy/should_exists.policy';
     },
     {
       provide: MODULE.USER.POLICY.SHOULD_EXISTS,
+      useClass: UserShouldExistsToAuthPolicy,
+    },
+    {
+      provide: MODULE.USER.POLICY.IS_VALID_PASSWORD,
       useClass: UserShouldExistsToAuthPolicy,
     },
     {
@@ -33,6 +38,12 @@ import { UserShouldExistsToAuthPolicy } from './policy/should_exists.policy';
       provide: MODULE.USER.REPOSITORY.PRISMA,
       useClass: PrismaUserRepository,
     },
+    {
+      provide: MODULE.USER.SERVICE.AUTH,
+      useClass: UserService,
+    },
+  ],
+  exports: [
     {
       provide: MODULE.USER.SERVICE.AUTH,
       useClass: UserService,
