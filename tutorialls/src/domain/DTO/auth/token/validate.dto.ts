@@ -1,4 +1,4 @@
-export interface IValidateAuthToken {
+export interface IValidateAuthTokenDTO {
   email: string;
   password: string;
 }
