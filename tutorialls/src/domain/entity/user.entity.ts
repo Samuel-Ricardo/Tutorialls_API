@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, IsUUID, isUUID } from 'class-validator';
+import { IsEmail, IsString, IsUUID, MinLength } from 'class-validator';
 import { IUserDTO } from '../DTO/user/user.dto';
 
 export class User {
@@ -7,7 +7,7 @@ export class User {
   @IsEmail()
   private readonly email: string;
   @IsString()
-  @IsNotEmpty()
+  @MinLength(8)
   private readonly password: string;
   private readonly authToken?: string;
 
