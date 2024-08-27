@@ -10,11 +10,14 @@ import { PrismaModule } from 'src/infra/engine/database/prisma/prisma.module';
 import { UserShouldExistsToAuthPolicy } from './policy/should_exists.policy';
 import { AuthModule } from '../auth/auth.module';
 import { BcryptPasswordShouldBeValidToLoginPolicy } from './policy/password_should_be_valid.policy';
+import { EncryptionModule } from '../encryption/encryption.module';
+import { DecryptUserPipe } from './pipe/encryption/encryption.pipe';
 
 @Module({
   controllers: [UsersController],
-  imports: [PrismaModule, AuthModule],
+  imports: [PrismaModule, AuthModule, EncryptionModule],
   providers: [
+    DecryptUserPipe,
     {
       provide: MODULE.USER.POLICY.ALREDY_EXISTS,
       useClass: UserShouldNotAlreadyExistsToSignupPolicy,
