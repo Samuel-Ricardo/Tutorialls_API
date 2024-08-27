@@ -39,6 +39,6 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   findById(DTO: IFindUserByIdDTO): Promise<User> {
-    throw new Error('Method not implemented.');
+    throw new Error(`Method not implemented. ${DTO}`);
   }
 }
