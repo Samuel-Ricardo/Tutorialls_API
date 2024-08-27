@@ -6,3 +6,5 @@ export const LoginSchema = z
     password: z.string().min(8),
   })
   .required();
+
+export type zodLoginSchema = z.infer<typeof LoginSchema>;

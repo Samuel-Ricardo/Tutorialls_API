@@ -6,3 +6,5 @@ export const SignupSchema = z
     password: z.string().min(8),
   })
   .required();
+
+export type zodSignupSchema = z.infer<typeof SignupSchema>;
