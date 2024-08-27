@@ -18,6 +18,6 @@ export class UsersController {
 
   @Post('login')
   async login(@Body() user: ILoginUserDTO) {
-    return { token: (await this.service.login(user)).toDTO().authToken };
+    return await this.service.login(user);
   }
 }
