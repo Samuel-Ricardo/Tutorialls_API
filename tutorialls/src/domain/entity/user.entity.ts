@@ -1,12 +1,22 @@
+import { IsEmail, IsNotEmpty, IsString, IsUUID, isUUID } from 'class-validator';
 import { IUserDTO } from '../DTO/user/user.dto';
 
 export class User {
-  constructor(
-    private readonly id: string,
-    private readonly email: string,
-    private readonly password: string,
-    private readonly authToken?: string,
-  ) {}
+  @IsUUID()
+  private readonly id: string;
+  @IsEmail()
+  private readonly email: string;
+  @IsString()
+  @IsNotEmpty()
+  private readonly password: string;
+  private readonly authToken?: string;
+
+  constructor(id: string, email: string, password: string, authToken?: string) {
+    this.id = id;
+    this.email = email;
+    this.password = password;
+    this.authToken = authToken;
+  }
 
   toDTO(): IUserDTO {
     return {
