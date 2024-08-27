@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { MODULE } from 'src/app.registry';
 import { IUserAlreadyExistsPolicyDTO } from 'src/domain/DTO/user/policy/alredy_exists.dto';
 import { IUserShouldNotAlreadyExistsToSignupPolicy } from 'src/domain/policy/user/alredy_exists.policy';
 import { IUserRepository } from 'src/domain/repository/user/user.repository';
@@ -7,7 +8,10 @@ import { IUserRepository } from 'src/domain/repository/user/user.repository';
 export class UserShouldNotAlreadyExistsToSignupPolicy
   implements IUserShouldNotAlreadyExistsToSignupPolicy
 {
-  constructor(private readonly repository: IUserRepository) {}
+  constructor(
+    @Inject(MODULE.USER.REPOSITORY.PRISMA)
+    private readonly repository: IUserRepository,
+  ) {}
 
   async execute({ email }: IUserAlreadyExistsPolicyDTO) {
     return (await this.repository.findByEmail({ email })) ? true : false;
