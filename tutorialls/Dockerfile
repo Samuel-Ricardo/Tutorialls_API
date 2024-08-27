@@ -25,6 +25,8 @@ COPY --chown=node:node --from=build /home/node/app/package*.json ./
 COPY --chown=node:node --from=build /home/node/app/dist ./dist
 COPY --chown=node:node --from=build /home/node/app/prisma ./prisma
 
+RUN npm uninstall bcrypt && npm i bcrypt
+
 CMD [ "npm", "run", "start:docker" ]
 
 
