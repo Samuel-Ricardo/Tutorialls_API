@@ -7,11 +7,11 @@ import { IGenerateAuthTokenUseCase } from 'src/domain/use_case/auth/generate_tok
 import { IValidateAuthTokenUseCase } from 'src/domain/use_case/auth/validate_token.use_case';
 
 @Injectable()
-export class AuthService implements IAuthService {
+export class JwtAuthService implements IAuthService {
   constructor(
-    @Inject(MODULE.AUHT.USE_CASE.TOKEN.GENERATE)
+    @Inject(MODULE.AUTH.USE_CASE.TOKEN.GENERATE)
     private readonly generateToken: IGenerateAuthTokenUseCase,
-    @Inject(MODULE.AUHT.USE_CASE.TOKEN.VALIDATE)
+    @Inject(MODULE.AUTH.USE_CASE.TOKEN.VALIDATE)
     private readonly validateToken: IValidateAuthTokenUseCase,
   ) {}
 

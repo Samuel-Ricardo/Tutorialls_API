@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { JwtAuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { MODULE } from 'src/app.registry';
@@ -12,14 +12,23 @@ import { JwtValidateAuthTokenUseCase } from './use_case/validate_token.use_case'
     JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '1d' } }),
   ],
   providers: [
-    AuthService,
     {
-      provide: MODULE.AUHT.USE_CASE.TOKEN.GENERATE,
+      provide: MODULE.AUTH.SERVICE.JWT,
+      useValue: JwtAuthService,
+    },
+    {
+      provide: MODULE.AUTH.USE_CASE.TOKEN.GENERATE,
       useValue: JwtGenerateAuthTokenUseCase,
     },
     {
-      provide: MODULE.AUHT.USE_CASE.TOKEN.VALIDATE,
+      provide: MODULE.AUTH.USE_CASE.TOKEN.VALIDATE,
       useValue: JwtValidateAuthTokenUseCase,
+    },
+  ],
+  exports: [
+    {
+      provide: MODULE.AUTH.SERVICE.JWT,
+      useValue: JwtAuthService,
     },
   ],
 })
