@@ -9,6 +9,7 @@ import { MODULE } from 'src/app.registry';
 import { PrismaModule } from 'src/infra/engine/database/prisma/prisma.module';
 import { UserShouldExistsToAuthPolicy } from './policy/should_exists.policy';
 import { AuthModule } from '../auth/auth.module';
+import { BcryptPasswordShouldBeValidToLoginPolicy } from './policy/password_should_be_valid.policy';
 
 @Module({
   controllers: [UsersController],
@@ -24,7 +25,7 @@ import { AuthModule } from '../auth/auth.module';
     },
     {
       provide: MODULE.USER.POLICY.IS_VALID_PASSWORD,
-      useClass: UserShouldExistsToAuthPolicy,
+      useClass: BcryptPasswordShouldBeValidToLoginPolicy,
     },
     {
       provide: MODULE.USER.USE_CASE.HASH.PASSWORD,
