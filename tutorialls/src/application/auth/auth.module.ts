@@ -14,21 +14,21 @@ import { JwtValidateAuthTokenUseCase } from './use_case/validate_token.use_case'
   providers: [
     {
       provide: MODULE.AUTH.SERVICE.JWT,
-      useValue: JwtAuthService,
+      useClass: JwtAuthService,
     },
     {
       provide: MODULE.AUTH.USE_CASE.TOKEN.GENERATE,
-      useValue: JwtGenerateAuthTokenUseCase,
+      useClass: JwtGenerateAuthTokenUseCase,
     },
     {
       provide: MODULE.AUTH.USE_CASE.TOKEN.VALIDATE,
-      useValue: JwtValidateAuthTokenUseCase,
+      useClass: JwtValidateAuthTokenUseCase,
     },
   ],
   exports: [
     {
       provide: MODULE.AUTH.SERVICE.JWT,
-      useValue: JwtAuthService,
+      useClass: JwtAuthService,
     },
   ],
 })
