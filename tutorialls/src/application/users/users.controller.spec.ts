@@ -28,7 +28,7 @@ describe('UsersController', () => {
     authServiceMock = module.get(MODULE.USER.SERVICE.AUTH);
   });
 
-  it('should be defined', () => {
+  it('should be defined', async () => {
     expect(usersController).toBeDefined();
   });
 
@@ -38,14 +38,19 @@ describe('UsersController', () => {
         email: 'test@test.com',
         password: '12345',
       };
-      const userEntityMock = {} as User;
+      const userEntityMock = User.fromDTO({
+        id: '564g9edgs',
+        email: 'test@test.com',
+        password: '12345',
+        authToken: 'authToken',
+      });
 
       authServiceMock.signup.mockResolvedValueOnce(userEntityMock);
 
       const result = await usersController.signup(userMock);
 
       expect(authServiceMock.signup).toHaveBeenCalledWith(userMock);
-      expect(result).toBe(userEntityMock);
+      expect(result).toBe(undefined);
     });
   });
 
@@ -55,14 +60,19 @@ describe('UsersController', () => {
         email: 'test@test.com',
         password: '12345',
       };
-      const userEntityMock = {} as User;
+      const userEntityMock = User.fromDTO({
+        id: '564g9edgs',
+        email: 'test@test.com',
+        password: '12345',
+        authToken: 'authToken',
+      });
 
       authServiceMock.login.mockResolvedValueOnce(userEntityMock);
 
       const result = await usersController.login(userMock);
 
       expect(authServiceMock.login).toHaveBeenCalledWith(userMock);
-      expect(result).toBe(userEntityMock);
+      expect(result).toStrictEqual({ token: 'authToken' });
     });
   });
 });
