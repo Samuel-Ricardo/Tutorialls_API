@@ -12,12 +12,12 @@ export class UsersController {
   ) {}
 
   @Post('signup')
-  signup(@Body() user: ISignupUserDTO) {
-    return this.service.signup(user);
+  async signup(@Body() user: ISignupUserDTO) {
+    await this.service.signup(user);
   }
 
   @Post('login')
-  login(@Body() user: IAuthUserDTO) {
-    return this.service.login(user);
+  async login(@Body() user: IAuthUserDTO) {
+    return { token: (await this.service.login(user)).toDTO().authToken };
   }
 }
