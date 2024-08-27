@@ -12,7 +12,7 @@ export class NodeEncryptUserUseCase implements IEncryptUserUseCase {
   async execute({ user }: IEncryptUserDTO) {
     const cipher = createCipheriv(this.algorithm, this.secretKey, this.iv);
     const encrypted = Buffer.concat([
-      cipher.update(JSON.stringify(user.toDTO())),
+      cipher.update(JSON.stringify(user)),
       cipher.final(),
     ]);
     return `${this.iv.toString('hex')}:${encrypted.toString('hex')}`;
