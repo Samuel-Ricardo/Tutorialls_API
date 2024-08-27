@@ -1,5 +1,5 @@
-import { User } from 'src/domain/entity/user.entity';
+import { IUserDTO } from '../../user/user.dto';
 
 export interface IEncryptUserDTO {
-  user: User;
+  user: IUserDTO;
 }
