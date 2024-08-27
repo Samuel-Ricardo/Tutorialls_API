@@ -6,9 +6,9 @@ import { ISignupUserDTO } from 'src/domain/DTO/user/register.dto';
 import { ILoginUserDTO } from 'src/domain/DTO/user/login.dto';
 import { User } from 'src/domain/entity/user.entity';
 
-describe('UsersController', () => {
+describe('UsersController (Unit)', () => {
   let usersController: UsersController;
-  let authServiceMock: jest.Mocked<IUserService>;
+  let userServiceMock: jest.Mocked<IUserService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -25,53 +25,67 @@ describe('UsersController', () => {
     }).compile();
 
     usersController = module.get<UsersController>(UsersController);
-    authServiceMock = module.get(MODULE.USER.SERVICE.AUTH);
+    userServiceMock = module.get(MODULE.USER.SERVICE.AUTH);
   });
 
-  it('should be defined', async () => {
+  it('should be defined', () => {
     expect(usersController).toBeDefined();
   });
 
   describe('signup', () => {
-    it('should call AuthService.signup with the correct user data', async () => {
+    it('should call UserService.signup with the correct user data', async () => {
       const userMock: ISignupUserDTO = {
         email: 'test@test.com',
         password: '12345',
       };
-      const userEntityMock = User.fromDTO({
-        id: '564g9edgs',
+
+      await usersController.signup(userMock);
+
+      expect(userServiceMock.signup).toHaveBeenCalledWith(userMock);
+    });
+
+    it('should return undefined after successful signup', async () => {
+      const userMock: ISignupUserDTO = {
         email: 'test@test.com',
         password: '12345',
-        authToken: 'authToken',
-      });
+      };
 
-      authServiceMock.signup.mockResolvedValueOnce(userEntityMock);
+      userServiceMock.signup.mockResolvedValueOnce(undefined);
 
       const result = await usersController.signup(userMock);
 
-      expect(authServiceMock.signup).toHaveBeenCalledWith(userMock);
-      expect(result).toBe(undefined);
+      expect(result).toBeUndefined();
     });
   });
 
   describe('login', () => {
-    it('should call AuthService.login with the correct user data', async () => {
+    it('should call UserService.login with the correct user data', async () => {
       const userMock: ILoginUserDTO = {
         email: 'test@test.com',
         password: '12345',
       };
-      const userEntityMock = User.fromDTO({
-        id: '564g9edgs',
-        email: 'test@test.com',
-        password: '12345',
-        authToken: 'authToken',
+
+      userServiceMock.login.mockResolvedValueOnce({
+        token: 'authToken',
       });
 
-      authServiceMock.login.mockResolvedValueOnce(userEntityMock);
+      await usersController.login(userMock);
+
+      expect(userServiceMock.login).toHaveBeenCalledWith(userMock);
+    });
+
+    it('should return a token after successful login', async () => {
+      const userMock: ILoginUserDTO = {
+        email: 'test@test.com',
+        password: '12345',
+      };
+
+      userServiceMock.login.mockResolvedValueOnce({
+        token: 'authToken',
+      });
 
       const result = await usersController.login(userMock);
 
-      expect(authServiceMock.login).toHaveBeenCalledWith(userMock);
       expect(result).toStrictEqual({ token: 'authToken' });
     });
   });
