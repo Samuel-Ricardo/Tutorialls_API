@@ -6,9 +6,11 @@ import { BcryptHashPasswordUseCase } from './use_case/hash_password.use_case';
 import { RepositorySignupUserUseCase } from './use_case/signup.use_case';
 import { PrismaUserRepository } from './repository/prisma/user.repository';
 import { MODULE } from 'src/app.registry';
+import { PrismaModule } from 'src/infra/engine/database/prisma/prisma.module';
 
 @Module({
   controllers: [UsersController],
+  imports: [PrismaModule],
   providers: [
     {
       provide: MODULE.USER.POLICY.ALREDY_EXISTS,
