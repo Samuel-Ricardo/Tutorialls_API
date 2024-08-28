@@ -3,7 +3,7 @@ import { NodeEncryptionService } from './encryption.service';
 import { MODULE } from 'src/app.registry';
 import { NodeEncryptUserUseCase } from './use_case/user/encrypt.use_case';
 import { NodeDecryptUserUseCase } from './use_case/user/decrypt.use_case';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule } from 'src/infra/config/config.module';
 
 @Module({
   imports: [ConfigModule],

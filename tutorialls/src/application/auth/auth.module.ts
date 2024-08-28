@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { MODULE } from 'src/app.registry';
 import { JwtGenerateAuthTokenUseCase } from './use_case/generate_token.use_case';
 import { JwtValidateAuthTokenUseCase } from './use_case/validate_token.use_case';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule } from 'src/infra/config/config.module';
 import { EnvService } from 'src/infra/config/env/env.service';
 
 @Module({
