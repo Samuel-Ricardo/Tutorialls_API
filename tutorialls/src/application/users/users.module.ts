@@ -12,7 +12,7 @@ import { AuthModule } from '../auth/auth.module';
 import { BcryptPasswordShouldBeValidToLoginPolicy } from './policy/password_should_be_valid.policy';
 import { EncryptionModule } from '../encryption/encryption.module';
 import { DecryptUserPipe } from './pipe/encryption/encryption.pipe';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule } from 'src/infra/config/config.module';
 
 @Module({
   controllers: [UsersController],
