@@ -18,9 +18,12 @@ describe('UsersController (Unit)', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [EncryptionModule],
       controllers: [UsersController],
       providers: [
+        {
+          provide: MODULE.ENCRYPTION.SERVICE.NODE,
+          useValue: { encrypt: jest.fn(), decrypt: jest.fn() },
+        },
         {
           provide: MODULE.USER.SERVICE.AUTH,
           useValue: {
