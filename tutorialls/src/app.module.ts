@@ -5,9 +5,20 @@ import { UsersModule } from './application/users/users.module';
 import { PrismaModule } from './infra/engine/database/prisma/prisma.module';
 import { AuthModule } from './application/auth/auth.module';
 import { EncryptionModule } from './application/encryption/encryption.module';
+import { ConfigModule } from '@nestjs/config';
+import { ConfigModule as AppConfigModule } from './infra/config/config.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, EncryptionModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    AuthModule,
+    EncryptionModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    AppConfigModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
