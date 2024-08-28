@@ -6,6 +6,7 @@ import { IUserService } from 'src/domain/service/user/user.service';
 import { ZodValidationPipe } from './pipe/validation/zod/zod.pipe';
 import { SignupSchema } from './validation/zod/user/signup.schema';
 import { LoginSchema } from './validation/zod/user/login.schema';
+import { DecryptUserPipe } from './pipe/encryption/encryption.pipe';
 
 @Controller('user')
 export class UsersController {
@@ -16,13 +17,17 @@ export class UsersController {
 
   @Post('signup')
   async signup(
-    @Body(new ZodValidationPipe(SignupSchema)) user: ISignupUserDTO,
+    @Body(DecryptUserPipe, new ZodValidationPipe(SignupSchema))
+    user: ISignupUserDTO,
   ) {
     await this.service.signup(user);
   }
 
   @Post('login')
-  async login(@Body(new ZodValidationPipe(LoginSchema)) user: ILoginUserDTO) {
+  async login(
+    @Body(DecryptUserPipe, new ZodValidationPipe(LoginSchema))
+    user: ILoginUserDTO,
+  ) {
     return await this.service.login(user);
   }
 }
