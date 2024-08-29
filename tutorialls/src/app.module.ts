@@ -7,6 +7,7 @@ import { AuthModule } from './application/auth/auth.module';
 import { EncryptionModule } from './application/encryption/encryption.module';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigModule as AppConfigModule } from './infra/config/config.module';
+import { TutorialModule } from './application/tutorial/tutorial.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ConfigModule as AppConfigModule } from './infra/config/config.module';
       isGlobal: true,
     }),
     AppConfigModule,
+    TutorialModule,
   ],
   controllers: [AppController],
   providers: [AppService],
