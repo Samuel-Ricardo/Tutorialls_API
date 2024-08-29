@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { MODULE } from 'src/app.registry';
 import { IPaginationOutputDTO } from 'src/domain/DTO/pagination/output.dto';
 import { ICreateTutorialDTO } from 'src/domain/DTO/tutorial/create.dto';
 import { IDeleteTutorialDTO } from 'src/domain/DTO/tutorial/delete.dto';
@@ -9,35 +10,58 @@ import { IListAllTutorialsDTO } from 'src/domain/DTO/tutorial/list/all.dto';
 import { IUpdateTutorialDTO } from 'src/domain/DTO/tutorial/update.dto';
 import { Tutorial } from 'src/domain/entity/tutorial.entity';
 import { ITutorialService } from 'src/domain/service/tutorial/tutorial.service';
+import { ICreateTutorialUseCase } from 'src/domain/use_case/tutorials/create.use_case';
+import { IDeleteTutorialUseCase } from 'src/domain/use_case/tutorials/delete.use_case';
+import { IFilterTutorialsByAuthorUseCase } from 'src/domain/use_case/tutorials/filter/by/author.use_case';
+import { IFilterTutorialsByKeywordUseCase } from 'src/domain/use_case/tutorials/filter/by/keyword.use_case';
+import { IFilterTutorialsByTitleUseCase } from 'src/domain/use_case/tutorials/filter/by/title.use_case';
+import { IListAllTutorialsUseCase } from 'src/domain/use_case/tutorials/list/all.use_case';
+import { IUpdateTutorialUseCase } from 'src/domain/use_case/tutorials/update.use_case';
 
 @Injectable()
 export class TutorialService implements ITutorialService {
-  constructor() {}
-  create(tutorial: ICreateTutorialDTO): Promise<Tutorial> {
-    throw new Error('Method not implemented.');
+  constructor(
+    @Inject(MODULE.TUTORIAL.USE_CASE.CREATE)
+    private readonly createTutorial: ICreateTutorialUseCase,
+    @Inject(MODULE.TUTORIAL.USE_CASE.LIST.ALL)
+    private readonly listAllTutorials: IListAllTutorialsUseCase,
+    @Inject(MODULE.TUTORIAL.USE_CASE.FILTER.BY.TITLE)
+    private readonly filterTutorialsByTitle: IFilterTutorialsByTitleUseCase,
+    @Inject(MODULE.TUTORIAL.USE_CASE.FILTER.BY.AUTHOR)
+    private readonly filterTutorialsByAuthor: IFilterTutorialsByAuthorUseCase,
+    @Inject(MODULE.TUTORIAL.USE_CASE.FILTER.BY.KEYWORD)
+    private readonly filterTutorialsByContent: IFilterTutorialsByKeywordUseCase,
+    @Inject(MODULE.TUTORIAL.USE_CASE.UPDATE)
+    private readonly updateTutorial: IUpdateTutorialUseCase,
+    @Inject(MODULE.TUTORIAL.USE_CASE.DELETE)
+    private readonly deleteTutorial: IDeleteTutorialUseCase,
+  ) {}
+
+  async create(tutorial: ICreateTutorialDTO) {
+    return await this.createTutorial.execute(tutorial);
   }
-  update(tutorial: IUpdateTutorialDTO): Promise<Tutorial> {
-    throw new Error('Method not implemented.');
+
+  async update(tutorial: IUpdateTutorialDTO) {
+    return await this.updateTutorial.execute(tutorial);
   }
-  delete(tutorial: IDeleteTutorialDTO): Promise<boolean> {
-    throw new Error('Method not implemented.');
+
+  async delete(tutorial: IDeleteTutorialDTO) {
+    return await this.deleteTutorial.execute(tutorial);
   }
-  listAll(DTO: IListAllTutorialsDTO): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+
+  async listAll(DTO: IListAllTutorialsDTO) {
+    return await this.listAllTutorials.execute(DTO);
   }
-  filterByTitle(
-    DTO: IFilterTutorialsByTitleDTO,
-  ): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+
+  async filterByTitle(DTO: IFilterTutorialsByTitleDTO) {
+    return await this.filterTutorialsByTitle.execute(DTO);
   }
-  filterByAuthor(
-    DTO: IFilterTutorialsByAuthorDTO,
-  ): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+
+  async filterByAuthor(DTO: IFilterTutorialsByAuthorDTO) {
+    return await this.filterTutorialsByAuthor.execute(DTO);
   }
-  filterByKeywordInContent(
-    DTO: IFilterTutorialsByContentDTO,
-  ): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+
+  async filterByKeywordInContent(DTO: IFilterTutorialsByContentDTO) {
+    return await this.filterTutorialsByContent.execute(DTO);
   }
 }
