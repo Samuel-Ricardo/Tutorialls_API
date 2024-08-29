@@ -18,7 +18,7 @@ export class Tutorial {
   private readonly content: string;
   @IsString()
   @IsNotEmpty()
-  private readonly creator: string;
+  private readonly autor: string;
   @IsDate()
   private readonly created_at?: Date;
   @IsDate()
@@ -28,14 +28,16 @@ export class Tutorial {
     id: string,
     title: string,
     content: string,
-    creator: string,
+    autor: string,
     created_at?: Date,
     updated_at?: Date,
   ) {
     this.id = id;
     this.title = title;
     this.content = content;
-    this.creator = creator;
+    this.autor = autor;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
   }
 
   toDTO(): ITutorialDTO {
@@ -43,7 +45,7 @@ export class Tutorial {
       id: this.id,
       title: this.title,
       content: this.content,
-      creator: this.creator,
+      author: this.autor,
       created_at: this.created_at,
       updated_at: this.updated_at,
     };
@@ -54,7 +56,7 @@ export class Tutorial {
       dto.id,
       dto.title,
       dto.content,
-      dto.creator,
+      dto.author,
       dto.created_at,
       dto.updated_at,
     );

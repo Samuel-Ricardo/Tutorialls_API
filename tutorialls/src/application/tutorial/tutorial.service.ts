@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MODULE } from 'src/app.registry';
-import { IPaginationOutputDTO } from 'src/domain/DTO/pagination/output.dto';
 import { ICreateTutorialDTO } from 'src/domain/DTO/tutorial/create.dto';
 import { IDeleteTutorialDTO } from 'src/domain/DTO/tutorial/delete.dto';
 import { IFilterTutorialsByAuthorDTO } from 'src/domain/DTO/tutorial/filter/by/author.dto';
@@ -8,7 +7,6 @@ import { IFilterTutorialsByContentDTO } from 'src/domain/DTO/tutorial/filter/by/
 import { IFilterTutorialsByTitleDTO } from 'src/domain/DTO/tutorial/filter/by/title.dto';
 import { IListAllTutorialsDTO } from 'src/domain/DTO/tutorial/list/all.dto';
 import { IUpdateTutorialDTO } from 'src/domain/DTO/tutorial/update.dto';
-import { Tutorial } from 'src/domain/entity/tutorial.entity';
 import { ITutorialService } from 'src/domain/service/tutorial/tutorial.service';
 import { ICreateTutorialUseCase } from 'src/domain/use_case/tutorials/create.use_case';
 import { IDeleteTutorialUseCase } from 'src/domain/use_case/tutorials/delete.use_case';

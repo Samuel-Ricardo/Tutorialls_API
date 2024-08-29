@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { MODULE } from 'src/app.registry';
 import { IListAllTutorialsDTO } from 'src/domain/DTO/tutorial/list/all.dto';
-import { Tutorial } from 'src/domain/entity/tutorial.entity';
 import { ITutorialRepository } from 'src/domain/repository/tutorial/tutorial.repository';
 import { IListAllTutorialsUseCase } from 'src/domain/use_case/tutorials/list/all.use_case';
 
