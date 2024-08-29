@@ -7,7 +7,9 @@ import {
   Param,
   Delete,
   Query,
+  Inject,
 } from '@nestjs/common';
+import { MODULE } from 'src/app.registry';
 
 import { PaginationDTO } from 'src/domain/DTO/pagination.dto';
 import { ICreateTutorialDTO } from 'src/domain/DTO/tutorial/create.dto';
@@ -19,7 +21,10 @@ import { ITutorialService } from 'src/domain/service/tutorial/tutorial.service';
 
 @Controller('tutorial')
 export class TutorialController {
-  constructor(private readonly service: ITutorialService) {}
+  constructor(
+    @Inject(MODULE.TUTORIAL.SERVICE.MAIN)
+    private readonly service: ITutorialService,
+  ) {}
 
   @Post('')
   create(@Body() user: ICreateTutorialDTO) {
