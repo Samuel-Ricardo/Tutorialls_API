@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { IPaginationOutputDTO } from 'src/domain/DTO/pagination/output.dto';
 import { ICreateTutorialDTO } from 'src/domain/DTO/tutorial/create.dto';
 import { IDeleteTutorialDTO } from 'src/domain/DTO/tutorial/delete.dto';
 import { IFilterTutorialsByAuthorDTO } from 'src/domain/DTO/tutorial/filter/by/author.dto';
@@ -15,29 +14,93 @@ import { PrismaService } from 'src/infra/engine/database/prisma/prisma.service';
 export class PrismaTutorialRepository implements ITutorialRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(tutorial: ICreateTutorialDTO) {}
-  update(tutorial: IUpdateTutorialDTO): Promise<Tutorial> {
-    throw new Error('Method not implemented.');
+  async create(tutorial: ICreateTutorialDTO) {
+    const result = await this.prisma.tutorial.create({
+      data: { ...tutorial },
+    });
+
+    return Tutorial.fromDTO(result);
   }
-  delete(tutorial: IDeleteTutorialDTO): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  async update(tutorial: IUpdateTutorialDTO) {
+    const result = await this.prisma.tutorial.update({
+      where: { id: tutorial.id },
+      data: {
+        author: tutorial.author,
+        title: tutorial.title,
+        content: tutorial.content,
+      },
+    });
+
+    return Tutorial.fromDTO(result);
   }
-  listAll(DTO: IListAllTutorialsDTO): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+
+  async delete(tutorial: IDeleteTutorialDTO) {
+    const result = await this.prisma.tutorial.delete({
+      where: { id: tutorial.id },
+    });
+
+    return !!result;
   }
-  findByTitle(
-    DTO: IFilterTutorialsByTitleDTO,
-  ): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+
+  async listAll({ pagination: { limit, page } }: IListAllTutorialsDTO) {
+    const result = await this.prisma.tutorial.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    return {
+      items: result.map((tutorial) => Tutorial.fromDTO(tutorial)),
+      total: await this.prisma.tutorial.count(),
+      limit,
+      page,
+    };
   }
-  findByAuthor(
-    DTO: IFilterTutorialsByAuthorDTO,
-  ): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+  async findByTitle({ limit, page, title }: IFilterTutorialsByTitleDTO) {
+    const result = await this.prisma.tutorial.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      where: { title: { contains: title } },
+    });
+
+    return {
+      items: result.map((tutorial) => Tutorial.fromDTO(tutorial)),
+      total: await this.prisma.tutorial.count(),
+      limit,
+      page,
+    };
   }
-  findByKeywordInContent(
-    DTO: IFilterTutorialsByContentDTO,
-  ): Promise<IPaginationOutputDTO<Tutorial>> {
-    throw new Error('Method not implemented.');
+
+  async findByAuthor({ author, limit, page }: IFilterTutorialsByAuthorDTO) {
+    const result = await this.prisma.tutorial.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      where: { author: { contains: author } },
+    });
+
+    return {
+      items: result.map(Tutorial.fromDTO),
+      total: await this.prisma.tutorial.count(),
+      limit,
+      page,
+    };
+  }
+
+  async findByKeywordInContent({
+    keyword,
+    limit,
+    page,
+  }: IFilterTutorialsByContentDTO) {
+    const result = await this.prisma.tutorial.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      where: { content: { contains: keyword } },
+    });
+
+    return {
+      items: result.map(Tutorial.fromDTO),
+      total: await this.prisma.tutorial.count(),
+      limit,
+      page,
+    };
   }
 }
