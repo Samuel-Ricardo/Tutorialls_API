@@ -7,6 +7,6 @@ import { bcrypt } from 'src/infra/engine/hashing/bcrypt.engine';
 @Injectable()
 export class BcryptHashPasswordUseCase implements IHashPasswordUseCase {
   execute({ password }: IHashPasswordDTO): Promise<string> {
-    return bcrypt.hash(password, EnvService.ENV.HASH.ROUNDS as number);
+    return bcrypt.hash(password, Number(EnvService.ENV.HASH.ROUNDS));
   }
 }
