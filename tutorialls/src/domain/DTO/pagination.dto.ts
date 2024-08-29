@@ -1,4 +1,3 @@
-// pagination-query.dto.ts
 import { IsOptional, IsPositive } from 'class-validator';
 
 export class PaginationDTO {

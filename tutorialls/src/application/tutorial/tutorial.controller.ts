@@ -1,34 +1,58 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TutorialService } from './tutorial.service';
-import { CreateTutorialDto } from './dto/create-tutorial.dto';
-import { UpdateTutorialDto } from './dto/update-tutorial.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
+
+import { PaginationDTO } from 'src/domain/DTO/pagination.dto';
+import { ICreateTutorialDTO } from 'src/domain/DTO/tutorial/create.dto';
+import { IFilterTutorialsByAuthorDTO } from 'src/domain/DTO/tutorial/filter/by/author.dto';
+import { IFilterTutorialsByContentDTO } from 'src/domain/DTO/tutorial/filter/by/content.dto';
+import { IFilterTutorialsByTitleDTO } from 'src/domain/DTO/tutorial/filter/by/title.dto';
+import { IUpdateTutorialDTO } from 'src/domain/DTO/tutorial/update.dto';
+import { ITutorialService } from 'src/domain/service/tutorial/tutorial.service';
 
 @Controller('tutorial')
 export class TutorialController {
-  constructor(private readonly tutorialService: TutorialService) {}
+  constructor(private readonly service: ITutorialService) {}
 
-  @Post()
-  create(@Body() createTutorialDto: CreateTutorialDto) {
-    return this.tutorialService.create(createTutorialDto);
+  @Post('')
+  create(@Body() user: ICreateTutorialDTO) {
+    return this.service.create(user);
   }
 
   @Get()
-  findAll() {
-    return this.tutorialService.findAll();
+  listAll(@Query() pagination: PaginationDTO) {
+    return this.service.listAll({ pagination });
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tutorialService.findOne(+id);
+  @Get('/title')
+  filterByTitle(@Query() DTO: IFilterTutorialsByTitleDTO) {
+    return this.service.filterByTitle(DTO);
+  }
+
+  @Get('/author')
+  filterByAuthor(@Query() DTO: IFilterTutorialsByAuthorDTO) {
+    return this.service.filterByAuthor(DTO);
+  }
+
+  @Get('/content')
+  filterByKeywordInContent(@Query() DTO: IFilterTutorialsByContentDTO) {
+    return this.service.filterByKeywordInContent(DTO);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTutorialDto: UpdateTutorialDto) {
-    return this.tutorialService.update(+id, updateTutorialDto);
+  update(@Param('id') id: string, @Body() DTO: IUpdateTutorialDTO) {
+    return this.service.update({ ...DTO, id: id });
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tutorialService.remove(+id);
+    return this.service.delete({ id: id });
   }
 }

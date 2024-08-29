@@ -7,6 +7,7 @@ import { IListAllTutorialsDTO } from 'src/domain/DTO/tutorial/list/all.dto';
 import { Tutorial } from '../../entity/tutorial.entity';
 import { IUpdateTutorialDTO } from 'src/domain/DTO/tutorial/update.dto';
 import { IDeleteTutorialDTO } from 'src/domain/DTO/tutorial/delete.dto';
+import { IFilterTutorialsByAuthorDTO } from 'src/domain/DTO/tutorial/filter/by/author.dto';
 
 export interface ITutorialService {
   create(tutorial: ICreateTutorialDTO): Promise<Tutorial>;
@@ -17,8 +18,8 @@ export interface ITutorialService {
   filterByTitle(
     DTO: IFilterTutorialsByTitleDTO,
   ): Promise<IPaginationOutputDTO<Tutorial>>;
-  filterByCreator(
-    DTO: IFilterTutorialsByTitleDTO,
+  filterByAuthor(
+    DTO: IFilterTutorialsByAuthorDTO,
   ): Promise<IPaginationOutputDTO<Tutorial>>;
   filterByKeywordInContent(
     DTO: IFilterTutorialsByContentDTO,

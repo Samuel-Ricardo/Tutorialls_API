@@ -1,5 +1,5 @@
-import { IListAllTutorialsDTO } from '../../list/all.dto';
+import { PaginationDTO } from 'src/domain/DTO/pagination.dto';
 
-export interface IFilterTutorialsByAuthorDTO extends IListAllTutorialsDTO {
+export interface IFilterTutorialsByAuthorDTO extends PaginationDTO {
   author: string;
 }
