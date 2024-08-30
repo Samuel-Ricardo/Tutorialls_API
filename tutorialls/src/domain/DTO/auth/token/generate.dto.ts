@@ -1,5 +1,5 @@
 export interface IGenerateAuthTokenDTO {
-  id: string;
+  id?: string;
   email: string;
   password: string;
 }
