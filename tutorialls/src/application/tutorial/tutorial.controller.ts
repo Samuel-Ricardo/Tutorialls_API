@@ -28,44 +28,44 @@ export class TutorialController {
     private readonly service: ITutorialService,
   ) {}
 
-  @Post('')
   @UseGuards(JwtAuthGuard)
+  @Post('')
   async create(@Body() user: ICreateTutorialDTO) {
     return await this.service.create(user);
   }
 
-  @Get()
   @UseGuards(JwtAuthGuard)
+  @Get()
   async listAll(@Query() pagination: PaginationDTO) {
     return await this.service.listAll({ pagination });
   }
 
-  @Get('/title')
   @UseGuards(JwtAuthGuard)
+  @Get('/title')
   async filterByTitle(@Query() DTO: IFilterTutorialsByTitleDTO) {
     return await this.service.filterByTitle(DTO);
   }
 
-  @Get('/author')
   @UseGuards(JwtAuthGuard)
+  @Get('/author')
   async filterByAuthor(@Query() DTO: IFilterTutorialsByAuthorDTO) {
     return await this.service.filterByAuthor(DTO);
   }
 
-  @Get('/content')
   @UseGuards(JwtAuthGuard)
+  @Get('/content')
   async filterByKeywordInContent(@Query() DTO: IFilterTutorialsByContentDTO) {
     return await this.service.filterByKeywordInContent(DTO);
   }
 
-  @Patch(':id')
   @UseGuards(JwtAuthGuard)
+  @Patch(':id')
   async update(@Param('id') id: string, @Body() DTO: IUpdateTutorialDTO) {
     return await this.service.update({ ...DTO, id: id });
   }
 
-  @Delete(':id')
   @UseGuards(JwtAuthGuard)
+  @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.service.delete({ id: id });
   }

@@ -65,8 +65,6 @@ export class TutorialService implements ITutorialService {
   async create(tutorial: ICreateTutorialDTO) {
     const result = await this.createTutorial.execute(tutorial);
 
-    console.log({ result });
-
     if (result) this.emit(result.toDTO());
     return result;
   }
