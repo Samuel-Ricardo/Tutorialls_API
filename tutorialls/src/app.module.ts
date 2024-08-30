@@ -8,25 +8,11 @@ import { EncryptionModule } from './application/encryption/encryption.module';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigModule as AppConfigModule } from './infra/config/config.module';
 import { TutorialModule } from './application/tutorial/tutorial.module';
-import { CacheModule } from '@nestjs/cache-manager';
-import { EnvService } from './infra/config/env/env.service';
-import { redisStore } from 'cache-manager-redis-store';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-    }),
-    CacheModule.registerAsync({
-      imports: [AppConfigModule],
-      useFactory: async (env: EnvService) => ({
-        isGlobal: true,
-        store: redisStore as any,
-        host: env.getRedisHost(),
-        port: env.getRedisPort(),
-        ttl: env.getCacheTTL(),
-      }),
-      inject: [EnvService],
     }),
     PrismaModule,
     UsersModule,
