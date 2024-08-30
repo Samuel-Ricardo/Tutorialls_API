@@ -48,7 +48,8 @@ export class TutorialService implements ITutorialService {
   }
 
   async listAll(DTO: IListAllTutorialsDTO) {
-    return await this.listAllTutorials.execute(DTO);
+    const result = await this.listAllTutorials.execute(DTO);
+    return result;
   }
 
   async filterByTitle(DTO: IFilterTutorialsByTitleDTO) {

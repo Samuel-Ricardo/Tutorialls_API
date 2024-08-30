@@ -45,7 +45,7 @@ export class PrismaTutorialRepository implements ITutorialRepository {
   async listAll({ pagination: { limit, page } }: IListAllTutorialsDTO) {
     const result = await this.prisma.tutorial.findMany({
       skip: (page - 1) * limit,
-      take: limit,
+      take: Number(limit),
     });
 
     return {
@@ -58,7 +58,7 @@ export class PrismaTutorialRepository implements ITutorialRepository {
   async findByTitle({ limit, page, title }: IFilterTutorialsByTitleDTO) {
     const result = await this.prisma.tutorial.findMany({
       skip: (page - 1) * limit,
-      take: limit,
+      take: Number(limit),
       where: { title: { contains: title } },
     });
 
@@ -73,7 +73,7 @@ export class PrismaTutorialRepository implements ITutorialRepository {
   async findByAuthor({ author, limit, page }: IFilterTutorialsByAuthorDTO) {
     const result = await this.prisma.tutorial.findMany({
       skip: (page - 1) * limit,
-      take: limit,
+      take: Number(limit),
       where: { author: { contains: author } },
     });
 
@@ -92,7 +92,7 @@ export class PrismaTutorialRepository implements ITutorialRepository {
   }: IFilterTutorialsByContentDTO) {
     const result = await this.prisma.tutorial.findMany({
       skip: (page - 1) * limit,
-      take: limit,
+      take: Number(limit),
       where: { content: { contains: keyword } },
     });
 

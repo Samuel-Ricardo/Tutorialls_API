@@ -1,11 +1,4 @@
-import { IsOptional, IsPositive } from 'class-validator';
-
-export class PaginationDTO {
-  @IsOptional()
-  @IsPositive()
+export interface PaginationDTO {
   page: number;
-
-  @IsOptional()
-  @IsPositive()
   limit: number;
 }

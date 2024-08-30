@@ -27,37 +27,37 @@ export class TutorialController {
   ) {}
 
   @Post('')
-  create(@Body() user: ICreateTutorialDTO) {
-    return this.service.create(user);
+  async create(@Body() user: ICreateTutorialDTO) {
+    return await this.service.create(user);
   }
 
   @Get()
-  listAll(@Query() pagination: PaginationDTO) {
-    return this.service.listAll({ pagination });
+  async listAll(@Query() pagination: PaginationDTO) {
+    return await this.service.listAll({ pagination });
   }
 
   @Get('/title')
-  filterByTitle(@Query() DTO: IFilterTutorialsByTitleDTO) {
-    return this.service.filterByTitle(DTO);
+  async filterByTitle(@Query() DTO: IFilterTutorialsByTitleDTO) {
+    return await this.service.filterByTitle(DTO);
   }
 
   @Get('/author')
-  filterByAuthor(@Query() DTO: IFilterTutorialsByAuthorDTO) {
-    return this.service.filterByAuthor(DTO);
+  async filterByAuthor(@Query() DTO: IFilterTutorialsByAuthorDTO) {
+    return await this.service.filterByAuthor(DTO);
   }
 
   @Get('/content')
-  filterByKeywordInContent(@Query() DTO: IFilterTutorialsByContentDTO) {
-    return this.service.filterByKeywordInContent(DTO);
+  async filterByKeywordInContent(@Query() DTO: IFilterTutorialsByContentDTO) {
+    return await this.service.filterByKeywordInContent(DTO);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() DTO: IUpdateTutorialDTO) {
-    return this.service.update({ ...DTO, id: id });
+  async update(@Param('id') id: string, @Body() DTO: IUpdateTutorialDTO) {
+    return await this.service.update({ ...DTO, id: id });
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.delete({ id: id });
+  async remove(@Param('id') id: string) {
+    return await this.service.delete({ id: id });
   }
 }
