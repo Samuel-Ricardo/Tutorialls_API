@@ -15,8 +15,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
+      //      whitelist: true,
+      //      forbidNonWhitelisted: true,
     }),
   );
 
@@ -30,6 +30,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/api/docs', app, document);
 
+  await app.startAllMicroservices();
   await app.listen(3000);
 }
 bootstrap();

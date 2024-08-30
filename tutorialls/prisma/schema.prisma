@@ -15,8 +15,19 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(uuid()) @db.Uuid
-  email     String  @unique
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
   password  String
   authToken String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tutorial {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  content   String
+  author    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
