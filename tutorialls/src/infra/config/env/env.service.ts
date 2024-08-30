@@ -23,7 +23,24 @@ export class EnvService {
       HASH: {
         ROUNDS: config.get<number>('HASH_ROUNDS'),
       },
+      REDIS: {
+        HOST: config.get<string>('REDIS_HOST'),
+        PORT: config.get<number>('REDIS_PORT'),
+        TTL: config.get<number>('CACHE_TTL'),
+      },
     };
+  }
+
+  getRedisHost() {
+    return this.config.get<string>('REDIS_HOST');
+  }
+
+  getRedisPort() {
+    return this.config.get<number>('REDIS_PORT');
+  }
+
+  getCacheTTL() {
+    return this.config.get<number>('CACHE_TTL');
   }
 
   getDatabaseUrl() {
