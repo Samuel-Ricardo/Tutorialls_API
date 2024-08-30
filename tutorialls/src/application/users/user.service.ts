@@ -42,7 +42,11 @@ export class UserService implements IUserService {
     )
       throw new InvalidCredentials();
 
-    const token = await this.authService.authenticate(user);
+    const token = await this.authService.authenticate({
+      id: result.id!,
+      email: result.email,
+      password: user.password,
+    });
 
     return { token };
   }
