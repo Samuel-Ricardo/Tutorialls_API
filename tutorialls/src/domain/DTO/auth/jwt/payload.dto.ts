@@ -1,4 +1,6 @@
 export interface IJwtPayloadDTO {
-  username: string;
+  id: string;
+  email: string;
+  password: string;
   sub: string;
 }

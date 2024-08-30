@@ -13,6 +13,7 @@ import { UserAlredyExistsError } from 'src/internal/lib/error/user/alredy_exists
 import { InvalidCredentials } from 'src/internal/lib/error/user/invalid_password.error';
 import { UserNotFoundError } from 'src/internal/lib/error/user/not_found.error';
 import { User } from 'src/domain/entity/user.entity';
+import { IGenerateAuthTokenDTO } from 'src/domain/DTO/auth/token/generate.dto';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -172,6 +173,12 @@ describe('UserService', () => {
         email: 'test@test.com',
         password: '12345',
       };
+
+      const payload: IGenerateAuthTokenDTO = {
+        id: '1',
+        ...userMock,
+      };
+
       const userEntityMock = User.fromDTO({
         id: '1',
         email: 'test@test.com',
@@ -186,7 +193,7 @@ describe('UserService', () => {
       const result = await userService.login(userMock);
 
       expect(result).toStrictEqual({ token: tokenMock });
-      expect(authServiceMock.authenticate).toHaveBeenCalledWith(userMock);
+      expect(authServiceMock.authenticate).toHaveBeenCalledWith(payload);
     });
   });
 });

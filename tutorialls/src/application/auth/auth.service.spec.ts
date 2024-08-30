@@ -25,6 +25,7 @@ describe('JwtAuthService', () => {
   describe('authenticate', () => {
     it('should return a token when execute is called', async () => {
       const dto: IGenerateAuthTokenDTO = {
+        id: 'mockUUID',
         email: 'mockEmail',
         password: 'mockPassword',
       };
