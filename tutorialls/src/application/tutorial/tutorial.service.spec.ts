@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-
+import { TutorialService } from './tutorial.service';
 import { MODULE } from 'src/app.registry';
-import { ICreateTutorialUseCase } from 'src/domain/use_case/tutorials/create.use_case';
 import { IUpdateTutorialUseCase } from 'src/domain/use_case/tutorials/update.use_case';
 import { IDeleteTutorialUseCase } from 'src/domain/use_case/tutorials/delete.use_case';
 import { IListAllTutorialsUseCase } from 'src/domain/use_case/tutorials/list/all.use_case';
@@ -12,11 +11,12 @@ import { ICreateTutorialDTO } from 'src/domain/DTO/tutorial/create.dto';
 import { IUpdateTutorialDTO } from 'src/domain/DTO/tutorial/update.dto';
 import { IListAllTutorialsDTO } from 'src/domain/DTO/tutorial/list/all.dto';
 import { IFilterTutorialsByTitleDTO } from 'src/domain/DTO/tutorial/filter/by/title.dto';
-import { TutorialService } from './tutorial.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Tutorial } from 'src/domain/entity/tutorial.entity';
 
 describe('TutorialService', () => {
   let service: TutorialService;
-  let createTutorialUseCase: ICreateTutorialUseCase;
+  let createTutorialUseCase: { execute: jest.Mock };
   let updateTutorialUseCase: IUpdateTutorialUseCase;
   let deleteTutorialUseCase: IDeleteTutorialUseCase;
   let listAllTutorialsUseCase: IListAllTutorialsUseCase;
@@ -56,11 +56,24 @@ describe('TutorialService', () => {
           provide: MODULE.TUTORIAL.USE_CASE.FILTER.BY.KEYWORD,
           useValue: { execute: jest.fn() },
         },
+        {
+          provide: CACHE_MANAGER,
+          useValue: {
+            get: jest.fn(),
+            set: jest.fn(),
+          },
+        },
+        {
+          provide: 'RABBITMQ_SERVICE',
+          useValue: {
+            emit: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<TutorialService>(TutorialService);
-    createTutorialUseCase = module.get<ICreateTutorialUseCase>(
+    createTutorialUseCase = module.get<{ execute: jest.Mock }>(
       MODULE.TUTORIAL.USE_CASE.CREATE,
     );
     updateTutorialUseCase = module.get<IUpdateTutorialUseCase>(
@@ -93,6 +106,9 @@ describe('TutorialService', () => {
       content: 'Tutorial Content',
       author: 'John Doe',
     };
+    createTutorialUseCase.execute.mockResolvedValue(
+      Tutorial.fromDTO(createDTO),
+    );
     await service.create(createDTO);
     expect(createTutorialUseCase.execute).toHaveBeenCalledWith(createDTO);
   });

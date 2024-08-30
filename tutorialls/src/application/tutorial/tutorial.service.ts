@@ -1,5 +1,6 @@
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { MODULE } from 'src/app.registry';
 import { PaginationDTO } from 'src/domain/DTO/pagination.dto';
 import { ICreateTutorialDTO } from 'src/domain/DTO/tutorial/create.dto';
@@ -9,6 +10,7 @@ import { IFilterTutorialsByContentDTO } from 'src/domain/DTO/tutorial/filter/by/
 import { IFilterTutorialsByTitleDTO } from 'src/domain/DTO/tutorial/filter/by/title.dto';
 import { IListAllTutorialsDTO } from 'src/domain/DTO/tutorial/list/all.dto';
 import { IUpdateTutorialDTO } from 'src/domain/DTO/tutorial/update.dto';
+import { ITutorialUpdatedEvent } from 'src/domain/event/tutorial/updated.event';
 import { ITutorialService } from 'src/domain/service/tutorial/tutorial.service';
 import { ICreateTutorialUseCase } from 'src/domain/use_case/tutorials/create.use_case';
 import { IDeleteTutorialUseCase } from 'src/domain/use_case/tutorials/delete.use_case';
@@ -22,6 +24,13 @@ import { IUpdateTutorialUseCase } from 'src/domain/use_case/tutorials/update.use
 export class TutorialService implements ITutorialService {
   private static cacheKey(key: string, { limit, page }: PaginationDTO) {
     return `tutorial:${key}:${limit}:${page}`;
+  }
+
+  private async emit(tutorial?: ITutorialUpdatedEvent) {
+    return this.rabbitmq.emit<ITutorialUpdatedEvent>(
+      'tutorials_queue',
+      tutorial,
+    );
   }
 
   constructor(
@@ -41,18 +50,39 @@ export class TutorialService implements ITutorialService {
     private readonly deleteTutorial: IDeleteTutorialUseCase,
     @Inject(CACHE_MANAGER)
     private readonly cache: Cache,
+    @Inject('RABBITMQ_SERVICE')
+    private readonly rabbitmq: ClientProxy,
   ) {}
 
+  async onModuleInit() {
+    await this.rabbitmq.connect();
+  }
+
+  async onModuleDestroy() {
+    await this.rabbitmq.close();
+  }
+
   async create(tutorial: ICreateTutorialDTO) {
-    return await this.createTutorial.execute(tutorial);
+    const result = await this.createTutorial.execute(tutorial);
+
+    console.log({ result });
+
+    if (result) this.emit(result.toDTO());
+    return result;
   }
 
   async update(tutorial: IUpdateTutorialDTO) {
-    return await this.updateTutorial.execute(tutorial);
+    const result = await this.updateTutorial.execute(tutorial);
+
+    if (result) this.emit(result.toDTO());
+    return result;
   }
 
   async delete(tutorial: IDeleteTutorialDTO) {
-    return await this.deleteTutorial.execute(tutorial);
+    const result = await this.deleteTutorial.execute(tutorial);
+
+    if (result) this.emit();
+    return result;
   }
 
   async listAll(DTO: IListAllTutorialsDTO) {
