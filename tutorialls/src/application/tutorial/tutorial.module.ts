@@ -16,10 +16,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { redisStore } from 'cache-manager-redis-store';
 import { EnvService } from 'src/infra/config/env/env.service';
 import { ConfigModule } from 'src/infra/config/config.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     PrismaModule,
+    AuthModule,
     CacheModule.register({
       imports: [ConfigModule],
       useFactory: (env: EnvService) => ({
