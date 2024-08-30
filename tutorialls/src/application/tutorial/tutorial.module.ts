@@ -11,9 +11,10 @@ import { FilterTutorialsByAuthorUseCase } from './use_case/filter/by/author.use_
 import { FilterTutorialsByTitleUseCase } from './use_case/filter/by/title.use_case';
 import { ListAllTutotialsUseCase } from './use_case/list/all.use_case';
 import { FilterTutorialsByKeywordUseCase } from './use_case/filter/by/keyword.use_case';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, CacheModule.register()],
   controllers: [TutorialController],
   providers: [
     { provide: MODULE.TUTORIAL.SERVICE.MAIN, useClass: TutorialService },
