@@ -59,7 +59,7 @@ export class PrismaTutorialRepository implements ITutorialRepository {
     const result = await this.prisma.tutorial.findMany({
       skip: (page - 1) * limit,
       take: Number(limit),
-      where: { title: { contains: title } },
+      where: { title: { contains: title, mode: 'insensitive' } },
     });
 
     return {
@@ -74,7 +74,7 @@ export class PrismaTutorialRepository implements ITutorialRepository {
     const result = await this.prisma.tutorial.findMany({
       skip: (page - 1) * limit,
       take: Number(limit),
-      where: { author: { contains: author } },
+      where: { author: { contains: author, mode: 'insensitive' } },
     });
 
     return {
@@ -93,7 +93,7 @@ export class PrismaTutorialRepository implements ITutorialRepository {
     const result = await this.prisma.tutorial.findMany({
       skip: (page - 1) * limit,
       take: Number(limit),
-      where: { content: { contains: keyword } },
+      where: { content: { contains: keyword, mode: 'insensitive' } },
     });
 
     return {
