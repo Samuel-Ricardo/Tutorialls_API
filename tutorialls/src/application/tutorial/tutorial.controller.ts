@@ -34,7 +34,6 @@ export class TutorialController {
     return await this.service.create(user);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async listAll(@Query() pagination: PaginationDTO) {
     return await this.service.listAll({ pagination });
