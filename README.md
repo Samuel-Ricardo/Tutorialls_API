@@ -52,10 +52,10 @@ This is a full stack tutorial platform that allows you to consume tutorials and 
 <br>
 
 🔭 | FRONTEND Repository: [[Tutorialls-API](https://github.com/Samuel-Ricardo/Tutorialls_API)] <br>
-📡 | Hosted on Render: [https://tutorialls-api-sha256.onrender.com/](https://tutorialls-api-sha256.onrender.com/)
-🗃️ | PostgreSQL: Hosted on [Render](https://render.com/)
-🟥 | Redis: Hosted on [Render](https://render.com/)
-🐇 | RabbitMQ: Hosted on [CloudAMQP](https://www.cloudamqp.com/)
+📡 | Hosted on Render: [[https://tutorialls-api-sha256.onrender.com/](https://tutorialls-api-sha256.onrender.com/)] <br>
+🗃️ | PostgreSQL: Hosted on [[Render](https://render.com/)] <br>
+🟥 | Redis: Hosted on [[Render](https://render.com/)] <br>
+🐇 | RabbitMQ: Hosted on [[CloudAMQP](https://www.cloudamqp.com/)] <br>
 
 <br>
 
@@ -67,7 +67,7 @@ This is a full stack tutorial platform that allows you to consume tutorials and 
   :building_construction: | Technologies and Concepts Studied:
 </h2>
 
-> <a href='https://nextjs.org/'> <img width="128px" src="https://github.com/Samuel-Ricardo/employee-dashboard_backend/assets/63983021/b348b789-d980-4968-ac4d-749cb397f0b8" /> </a>
+> <a href='https://nextjs.org/'> <img width="128px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg" /> </a>
 
 - NestJS
 - RabbitMQ
