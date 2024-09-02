@@ -1,5 +1,5 @@
 # DOCKER
-/.docker
+/.docker/data/pgadmin
 
 # compiled output
 /dist
