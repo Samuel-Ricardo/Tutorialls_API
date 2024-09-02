@@ -56,6 +56,7 @@ This is a full stack tutorial platform that allows you to consume tutorials and 
 🗃️ | PostgreSQL: Hosted on [[Render](https://render.com/)] <br>
 🟥 | Redis: Hosted on [[Render](https://render.com/)] <br>
 🐇 | RabbitMQ: Hosted on [[CloudAMQP](https://www.cloudamqp.com/)] <br>
+📑 | Documentation: [[Swagger](https://tutorialls-api-sha256.onrender.com/api/docs)]
 
 <br>
 
@@ -110,6 +111,9 @@ This is a full stack tutorial platform that allows you to consume tutorials and 
 
 
 ![image](https://github.com/user-attachments/assets/77b9ec7c-00d1-459c-a6b6-da42ecc16031)
+
+- 📑 | Documentation: [[Swagger](https://tutorialls-api-sha256.onrender.com/api/docs)]
+
 
 <br>
 
